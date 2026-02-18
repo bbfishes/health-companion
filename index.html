@@ -7,7 +7,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-    import { getDatabase, ref, set, get, onValue, push, update } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+    import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDloeMujdrabqiZI_9Wj4oRhTM7YfCAhec",
@@ -27,211 +27,318 @@
     window.set = set;
     window.get = get;
     window.onValue = onValue;
-    window.push = push;
-    window.update = update;
   </script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+    
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     :root {
-      --primary: #2ecc71;
-      --primary-dark: #27ae60;
-      --secondary: #3498db;
-      --danger: #e74c3c;
-      --warning: #f39c12;
-      --dark: #2c3e50;
-      --light: #ecf0f1;
+      --primary: #10b981;
+      --primary-light: #34d399;
+      --primary-dark: #059669;
+      --secondary: #6366f1;
+      --accent: #f59e0b;
+      --danger: #ef4444;
+      --dark: #1f2937;
+      --dark-secondary: #374151;
+      --gray: #9ca3af;
+      --light: #f3f4f6;
       --white: #ffffff;
-      --shadow: 0 4px 15px rgba(0,0,0,0.1);
-      --radius: 12px;
+      --gradient: linear-gradient(135deg, #10b981 0%, #6366f1 100%);
+      --shadow: 0 10px 40px rgba(0,0,0,0.1);
+      --shadow-sm: 0 2px 10px rgba(0,0,0,0.05);
+      --radius: 16px;
+      --radius-sm: 10px;
     }
+    
     body {
-      font-family: 'Segoe UI', 'PingFang TC', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gradient);
       min-height: 100vh;
       padding: 20px;
+      color: var(--dark);
     }
-    .container { max-width: 800px; margin: 0 auto; }
+    
+    .container { max-width: 700px; margin: 0 auto; }
+    
     h1 {
       text-align: center;
       color: var(--white);
-      margin-bottom: 30px;
-      font-size: 2rem;
+      margin-bottom: 8px;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
     }
+    
+    .subtitle {
+      text-align: center;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 30px;
+      font-size: 0.9rem;
+    }
+    
     .card {
       background: var(--white);
       border-radius: var(--radius);
-      padding: 24px;
+      padding: 28px;
       margin-bottom: 20px;
       box-shadow: var(--shadow);
+      animation: slideUp 0.4s ease-out;
     }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
     .card h2 {
       color: var(--dark);
-      font-size: 1.3rem;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
+      font-size: 1.2rem;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
       border-bottom: 3px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .form-group { margin-bottom: 16px; }
+    
+    .card h2::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: var(--gradient);
+      border-radius: 2px;
+    }
+    
+    .form-group { margin-bottom: 20px; }
+    
     .form-group label {
       display: block;
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 6px;
+      font-weight: 500;
+      color: var(--dark-secondary);
+      margin-bottom: 8px;
+      font-size: 0.95rem;
     }
+    
     .form-group input, .form-group select, .form-group textarea {
       width: 100%;
-      padding: 12px;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
+      padding: 14px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: var(--radius-sm);
       font-size: 1rem;
-      transition: border-color 0.3s;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      background: var(--white);
     }
+    
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
       outline: none;
       border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
     }
+    
+    .form-group input::placeholder { color: var(--gray); }
+    
     .form-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 16px;
     }
+    
     .btn {
-      padding: 12px 24px;
+      padding: 16px 32px;
       border: none;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      width: 100%;
     }
+    
     .btn-primary {
-      background: var(--primary);
+      background: var(--gradient);
       color: var(--white);
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
     }
-    .btn-primary:hover { background: var(--primary-dark); }
-    .btn-secondary {
-      background: var(--secondary);
-      color: var(--white);
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
     }
-    .btn-danger {
-      background: var(--danger);
-      color: var(--white);
-    }
+    
     .nav-tabs {
       display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 8px;
+      margin-bottom: 24px;
       flex-wrap: wrap;
+      justify-content: center;
     }
+    
     .nav-tab {
-      padding: 10px 20px;
-      background: rgba(255,255,255,0.2);
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.15);
       color: var(--white);
-      border: none;
-      border-radius: 8px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 30px;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
     }
+    
+    .nav-tab:hover { background: rgba(255,255,255,0.25); }
+    
     .nav-tab.active {
       background: var(--white);
       color: var(--primary);
+      border-color: var(--white);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
+    
     .tab-content { display: none; }
     .tab-content.active { display: block; }
+    
     .meal-section {
-      border: 2px dashed #ddd;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 2px solid #e2e8f0;
       border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .meal-section h3 {
-      color: var(--secondary);
-      margin-bottom: 12px;
-    }
-    .meal-image {
-      width: 100%;
-      max-height: 200px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-    .chart-container {
-      position: relative;
-      height: 300px;
+      padding: 20px;
       margin-bottom: 20px;
     }
-    .history-item {
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 16px;
+    
+    .meal-section h3 {
+      color: var(--secondary);
+      margin-bottom: 16px;
+      font-size: 1.1rem;
+    }
+    
+    .meal-image {
+      width: 100%;
+      max-height: 180px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
       margin-bottom: 12px;
     }
-    .history-date {
-      font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 8px;
+    
+    .chart-container {
+      position: relative;
+      height: 250px;
+      margin-bottom: 24px;
+      padding: 20px;
+      background: #fafafa;
+      border-radius: var(--radius-sm);
     }
+    
+    .history-item {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    
+    .history-date {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+    
     .history-details {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
       gap: 8px;
-      font-size: 0.9rem;
     }
+    
     .history-details span {
-      background: var(--light);
-      padding: 4px 8px;
-      border-radius: 4px;
+      background: var(--white);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      border: 1px solid #e5e7eb;
     }
+    
     .time-range-selector {
       display: flex;
       gap: 10px;
       margin-bottom: 20px;
+      justify-content: center;
     }
+    
     .time-range-btn {
-      padding: 8px 16px;
+      padding: 10px 24px;
       border: 2px solid var(--primary);
       background: transparent;
       color: var(--primary);
-      border-radius: 20px;
+      border-radius: 25px;
       cursor: pointer;
+      font-weight: 500;
     }
+    
     .time-range-btn.active {
       background: var(--primary);
       color: var(--white);
     }
+    
     .empty-state {
       text-align: center;
-      padding: 40px;
-      color: #999;
+      padding: 50px 20px;
+      color: var(--gray);
     }
+    
     .profile-display {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: var(--gradient);
       color: white;
-      padding: 20px;
+      padding: 24px;
       border-radius: var(--radius);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      text-align: center;
     }
-    .profile-display h3 { margin-bottom: 10px; }
+    
+    .profile-display h3 { font-size: 1.4rem; }
+    
     .sync-status {
       text-align: center;
-      padding: 8px;
-      background: var(--light);
-      border-radius: 8px;
-      margin-bottom: 16px;
-      font-size: 0.9rem;
+      padding: 12px;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+      color: var(--primary-dark);
     }
-    .sync-status.synced { color: var(--primary); }
-    .sync-status.syncing { color: var(--warning); }
+    
+    .section-title {
+      font-size: 0.85rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      margin-top: 24px;
+    }
+    
+    .section-title:first-of-type { margin-top: 0; }
+    
+    input[type="file"] {
+      padding: 12px;
+      background: var(--light);
+      border-radius: var(--radius-sm);
+    }
+    
     @media (max-width: 600px) {
-      body { padding: 10px; }
-      .card { padding: 16px; }
+      body { padding: 12px; }
+      .card { padding: 20px; }
       h1 { font-size: 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-tab { padding: 10px 16px; font-size: 0.85rem; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>健康小幫手 🦞</h1>
+    <p class="subtitle">記錄健康 · 掌握趨勢 · 共享關懷</p>
     
     <div class="nav-tabs">
       <button class="nav-tab active" onclick="showTab('profile')">👤 個人資料</button>
@@ -245,17 +352,17 @@
     <div id="profile" class="tab-content active">
       <div class="card">
         <h2>個人資料</h2>
-        <div class="sync-status" id="syncStatus">☁️ 正在同步...</div>
+        <div class="sync-status" id="syncStatus">正在同步資料...</div>
         <div id="profileDisplay"></div>
         <div class="form-group">
           <label>姓名</label>
-          <input type="text" id="profileName" placeholder="請輸入姓名">
+          <input type="text" id="profileName" placeholder="請輸入您的姓名">
         </div>
         <div class="form-group">
           <label>年齡</label>
           <input type="number" id="profileAge" placeholder="請輸入年齡">
         </div>
-        <button class="btn btn-primary" onclick="saveProfile()">儲存個人資料</button>
+        <button class="btn btn-primary" onclick="saveProfile()">儲存資料</button>
       </div>
     </div>
 
@@ -267,6 +374,8 @@
           <label>日期</label>
           <input type="date" id="dailyDate">
         </div>
+        
+        <p class="section-title">身體數據</p>
         <div class="form-row">
           <div class="form-group">
             <label>體重 (kg)</label>
@@ -287,6 +396,8 @@
             <input type="number" id="dailyWater" placeholder="例如：2000">
           </div>
         </div>
+        
+        <p class="section-title">作息時間</p>
         <div class="form-row">
           <div class="form-group">
             <label>起床時間</label>
@@ -297,6 +408,8 @@
             <input type="time" id="dailySleepTime">
           </div>
         </div>
+        
+        <p class="section-title">健康指標</p>
         <div class="form-row">
           <div class="form-group">
             <label>血壓收縮壓 (mmHg)</label>
@@ -309,19 +422,16 @@
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>血糖 (mg/dL)</label>
-            <input type="number" id="dailyBloodSugar" placeholder="例如：100">
-          </div>
-          <div class="form-group">
             <label>排便紀錄</label>
             <select id="dailyBowel">
               <option value="">請選擇</option>
-              <option value="true">有</option>
-              <option value="false">無</option>
+              <option value="true">有 ✓</option>
+              <option value="false">無 ✗</option>
             </select>
           </div>
         </div>
-        <button class="btn btn-primary" onclick="saveDailyRecord()">儲存每日記錄</button>
+        
+        <button class="btn btn-primary" onclick="saveDailyRecord()">儲存記錄</button>
       </div>
     </div>
 
@@ -338,9 +448,8 @@
           <h3>🌅 早餐</h3>
           <input type="file" id="breakfastImage" accept="image/*" onchange="previewImage(this, 'breakfastPreview')">
           <div id="breakfastPreview"></div>
-          <div class="form-group" style="margin-top: 10px;">
-            <label>備註</label>
-            <textarea id="breakfastNote" rows="2" placeholder="吃了什麼？"></textarea>
+          <div class="form-group" style="margin-top: 12px;">
+            <textarea id="breakfastNote" rows="2" placeholder="吃了什麼好料？"></textarea>
           </div>
         </div>
 
@@ -348,9 +457,8 @@
           <h3>☀️ 午餐</h3>
           <input type="file" id="lunchImage" accept="image/*" onchange="previewImage(this, 'lunchPreview')">
           <div id="lunchPreview"></div>
-          <div class="form-group" style="margin-top: 10px;">
-            <label>備註</label>
-            <textarea id="lunchNote" rows="2" placeholder="吃了什麼？"></textarea>
+          <div class="form-group" style="margin-top: 12px;">
+            <textarea id="lunchNote" rows="2" placeholder="吃了什麼好料？"></textarea>
           </div>
         </div>
 
@@ -358,13 +466,12 @@
           <h3>🌙 晚餐</h3>
           <input type="file" id="dinnerImage" accept="image/*" onchange="previewImage(this, 'dinnerPreview')">
           <div id="dinnerPreview"></div>
-          <div class="form-group" style="margin-top: 10px;">
-            <label>備註</label>
-            <textarea id="dinnerNote" rows="2" placeholder="吃了什麼？"></textarea>
+          <div class="form-group" style="margin-top: 12px;">
+            <textarea id="dinnerNote" rows="2" placeholder="吃了什麼好料？"></textarea>
           </div>
         </div>
 
-        <button class="btn btn-primary" onclick="saveMealRecord()">儲存餐飲記錄</button>
+        <button class="btn btn-primary" onclick="saveMealRecord()">儲存餐飲</button>
       </div>
     </div>
 
@@ -387,9 +494,6 @@
         <div class="chart-container">
           <canvas id="bloodPressureChart"></canvas>
         </div>
-        <div class="chart-container">
-          <canvas id="bloodSugarChart"></canvas>
-        </div>
       </div>
     </div>
 
@@ -407,8 +511,7 @@
   </div>
 
   <script type="module">
-    // 等待 Firebase 載入完成
-    let db, ref, set, get, onValue, push, update;
+    let db, ref, set, get, onValue;
     
     function waitForFirebase() {
       return new Promise((resolve) => {
@@ -419,8 +522,6 @@
             set = window.set;
             get = window.get;
             onValue = window.onValue;
-            push = window.push;
-            update = window.update;
             resolve();
           } else {
             setTimeout(check, 100);
@@ -434,34 +535,27 @@
     let charts = {};
     let allData = { profile: {}, dailyRecords: [], mealRecords: [] };
 
-    // 設定今天的日期
     document.getElementById('dailyDate').value = new Date().toISOString().split('T')[0];
     document.getElementById('mealDate').value = new Date().toISOString().split('T')[0];
 
-    // 初始化
     waitForFirebase().then(() => {
       setupRealtimeSync();
     });
 
-    // 設定即時同步
     function setupRealtimeSync() {
       const statusEl = document.getElementById('syncStatus');
       
-      // 監聽 profile 變化
       onValue(ref(db, 'profile'), (snapshot) => {
         const data = snapshot.val();
         if (data) {
           allData.profile = data;
           loadProfileDisplay(data);
-          statusEl.textContent = '☁️ 已同步';
-          statusEl.className = 'sync-status synced';
+          statusEl.textContent = '✓ 資料已同步';
         } else {
-          statusEl.textContent = '☁️ 已同步';
-          statusEl.className = 'sync-status synced';
+          statusEl.textContent = '✓ 資料已同步';
         }
       });
 
-      // 監聽每日記錄變化
       onValue(ref(db, 'dailyRecords'), (snapshot) => {
         const data = snapshot.val();
         if (data) {
@@ -475,7 +569,6 @@
         }
       });
 
-      // 監聽餐飲記錄變化
       onValue(ref(db, 'mealRecords'), (snapshot) => {
         const data = snapshot.val();
         if (data) {
@@ -494,16 +587,20 @@
       event.target.classList.add('active');
       
       if (tabId === 'trends') {
-        updateCharts();
+        setTimeout(updateCharts, 100);
       }
     };
 
-    // ========== 個人資料 ==========
     window.saveProfile = async function() {
       const profile = {
         name: document.getElementById('profileName').value,
         age: document.getElementById('profileAge').value
       };
+      
+      if (!profile.name) {
+        alert('請輸入姓名');
+        return;
+      }
       
       await set(ref(db, 'profile'), profile);
       alert('個人資料已儲存！');
@@ -515,13 +612,13 @@
         document.getElementById('profileAge').value = profile.age;
         document.getElementById('profileDisplay').innerHTML = `
           <div class="profile-display">
-            <h3>👤 ${profile.name}，${profile.age} 歲</h3>
+            <h3>👤 ${profile.name}</h3>
+            <p>${profile.age} 歲</p>
           </div>
         `;
       }
     }
 
-    // ========== 每日記錄 ==========
     window.saveDailyRecord = async function() {
       const date = document.getElementById('dailyDate').value;
       if (!date) { alert('請選擇日期'); return; }
@@ -537,17 +634,14 @@
           systolic: parseInt(document.getElementById('dailyBP_Sys').value) || null,
           diastolic: parseInt(document.getElementById('dailyBP_Dia').value) || null
         },
-        bloodSugar: parseInt(document.getElementById('dailyBloodSugar').value) || null,
         bowelMovement: document.getElementById('dailyBowel').value === 'true' ? true : (document.getElementById('dailyBowel').value === 'false' ? false : null),
         waterIntake: parseInt(document.getElementById('dailyWater').value) || null
       };
 
-      // 使用日期作為 key
       await set(ref(db, 'dailyRecords/' + date), record);
       alert('每日記錄已儲存！');
     };
 
-    // ========== 餐飲記錄 ==========
     window.previewImage = function(input, previewId) {
       const file = input.files[0];
       if (file) {
@@ -592,7 +686,6 @@
       });
     };
 
-    // ========== 趨勢分析 ==========
     window.setTimeRange = function(days, btn) {
       currentTimeRange = days;
       document.querySelectorAll('.time-range-btn').forEach(b => b.classList.remove('active'));
@@ -612,11 +705,22 @@
       const labels = filteredRecords.map(r => r.date);
       
       if (labels.length === 0) {
-        document.getElementById('weightChart').parentElement.innerHTML = '<div class="empty-state">尚無足夠資料顯示趨勢圖</div>';
+        const container = document.querySelector('#trends .card');
+        container.innerHTML = `
+          <h2>趨勢分析</h2>
+          <div class="time-range-selector">
+            <button class="time-range-btn active" onclick="setTimeRange(7, this)">7天</button>
+            <button class="time-range-btn" onclick="setTimeRange(30, this)">30天</button>
+            <button class="time-range-btn" onclick="setTimeRange(90, this)">90天</button>
+          </div>
+          <div class="empty-state">
+            <p>尚無足夠資料顯示趨勢圖</p>
+            <p style="font-size: 0.85rem; margin-top: 8px;">請先記錄幾筆資料後再來查看</p>
+          </div>
+        `;
         return;
       }
       
-      // 恢復 chart container
       if (!document.getElementById('weightChart')) {
         const trendsCard = document.querySelector('#trends .card');
         trendsCard.innerHTML = `
@@ -629,27 +733,21 @@
           <div class="chart-container"><canvas id="weightChart"></canvas></div>
           <div class="chart-container"><canvas id="bodyFatChart"></canvas></div>
           <div class="chart-container"><canvas id="bloodPressureChart"></canvas></div>
-          <div class="chart-container"><canvas id="bloodSugarChart"></canvas></div>
         `;
       }
       
-      // 體重
-      createChart('weightChart', '體重趨勢 (kg)', labels, 
-        filteredRecords.map(r => r.weight), '#2ecc71');
-      // 體脂率
-      createChart('bodyFatChart', '體脂率趨勢 (%)', labels, 
-        filteredRecords.map(r => r.bodyFat), '#e74c3c');
-      // 血壓
+      createChart('weightChart', '體重趨勢 (kg)', labels, filteredRecords.map(r => r.weight), '#10b981');
+      createChart('bodyFatChart', '體脂率趨勢 (%)', labels, filteredRecords.map(r => r.bodyFat), '#ef4444');
       createChart('bloodPressureChart', '血壓趨勢 (mmHg)', labels, 
-        filteredRecords.map(r => r.bloodPressure?.systolic), '#3498db', 
+        filteredRecords.map(r => r.bloodPressure?.systolic), '#6366f1', 
         filteredRecords.map(r => r.bloodPressure?.diastolic));
-      // 血糖
-      createChart('bloodSugarChart', '血糖趨勢 (mg/dL)', labels, 
-        filteredRecords.map(r => r.bloodSugar), '#f39c12');
     }
 
     function createChart(canvasId, label, labels, data, color, data2 = null) {
-      const ctx = document.getElementById(canvasId).getContext('2d');
+      const ctx = document.getElementById(canvasId);
+      if (!ctx) return;
+      
+      const context = ctx.getContext('2d');
       
       if (charts[canvasId]) {
         charts[canvasId].destroy();
@@ -661,21 +759,25 @@
         borderColor: color,
         backgroundColor: color + '20',
         fill: true,
-        tension: 0.4
+        tension: 0.4,
+        pointRadius: 4,
+        pointHoverRadius: 6
       }];
 
       if (data2) {
         datasets.push({
           label: label + ' (舒張壓)',
           data: data2,
-          borderColor: '#9b59b6',
-          backgroundColor: '#9b59b620',
+          borderColor: '#a78bfa',
+          backgroundColor: '#a78bfa20',
           fill: true,
-          tension: 0.4
+          tension: 0.4,
+          pointRadius: 4,
+          pointHoverRadius: 6
         });
       }
 
-      charts[canvasId] = new Chart(ctx, {
+      charts[canvasId] = new Chart(context, {
         type: 'line',
         data: { labels, datasets },
         options: {
@@ -687,14 +789,13 @@
       });
     }
 
-    // ========== 歷史資料 ==========
     function loadHistory() {
       const records = allData.dailyRecords;
       const mealRecords = allData.mealRecords;
       
       const historyList = document.getElementById('historyList');
       if (records.length === 0 && mealRecords.length === 0) {
-        historyList.innerHTML = '<div class="empty-state">尚無記錄資料</div>';
+        historyList.innerHTML = '<div class="empty-state"><p>尚無記錄資料</p></div>';
         return;
       }
 
@@ -716,14 +817,13 @@
           if (daily.wakeTime) html += `<span>起床: ${daily.wakeTime}</span>`;
           if (daily.sleepTime) html += `<span>就寢: ${daily.sleepTime}</span>`;
           if (daily.bloodPressure?.systolic) html += `<span>血壓: ${daily.bloodPressure.systolic}/${daily.bloodPressure.diastolic}</span>`;
-          if (daily.bloodSugar) html += `<span>血糖: ${daily.bloodSugar}</span>`;
           if (daily.waterIntake) html += `<span>水量: ${daily.waterIntake} cc</span>`;
-          if (daily.bowelMovement !== null) html += `<span>排便: ${daily.bowelMovement ? '有' : '無'}</span>`;
+          if (daily.bowelMovement !== null) html += `<span>排便: ${daily.bowelMovement ? '有 ✓' : '無 ✗'}</span>`;
           html += `</div>`;
         }
 
         if (meal) {
-          html += `<div style="margin-top: 8px; font-size: 0.85rem; color: #666;">`;
+          html += `<div style="margin-top: 12px; font-size: 0.9rem; color: #6366f1;">`;
           if (meal.breakfast?.note) html += `🌅 早餐: ${meal.breakfast.note} `;
           if (meal.lunch?.note) html += `☀️ 午餐: ${meal.lunch.note} `;
           if (meal.dinner?.note) html += `🌙 晚餐: ${meal.dinner.note}`;
@@ -767,14 +867,13 @@
         if (daily.wakeTime) html += `<span>起床: ${daily.wakeTime}</span>`;
         if (daily.sleepTime) html += `<span>就寢: ${daily.sleepTime}</span>`;
         if (daily.bloodPressure?.systolic) html += `<span>血壓: ${daily.bloodPressure.systolic}/${daily.bloodPressure.diastolic}</span>`;
-        if (daily.bloodSugar) html += `<span>血糖: ${daily.bloodSugar}</span>`;
         if (daily.waterIntake) html += `<span>水量: ${daily.waterIntake} cc</span>`;
-        if (daily.bowelMovement !== null) html += `<span>排便: ${daily.bowelMovement ? '有' : '無'}</span>`;
+        if (daily.bowelMovement !== null) html += `<span>排便: ${daily.bowelMovement ? '有 ✓' : '無 ✗'}</span>`;
         html += `</div>`;
       }
 
       if (meal) {
-        html += `<div style="margin-top: 8px; font-size: 0.85rem; color: #666;">`;
+        html += `<div style="margin-top: 12px; font-size: 0.9rem; color: #6366f1;">`;
         if (meal.breakfast?.note) html += `🌅 早餐: ${meal.breakfast.note} `;
         if (meal.lunch?.note) html += `☀️ 午餐: ${meal.lunch.note} `;
         if (meal.dinner?.note) html += `🌙 晚餐: ${meal.dinner.note}`;
