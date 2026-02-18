@@ -803,23 +803,23 @@
         }
 
         if (meal) {
-          html += `<div style="margin-top: 12px;">`;
+          html += `<div style="margin-top: 12px; display: flex; gap: 12px; flex-wrap: wrap;">`;
           if (meal.breakfast?.image || meal.breakfast?.note) {
-            html += `<div style="margin-bottom: 8px;">`;
-            if (meal.breakfast.image) html += `<img src="${meal.breakfast.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 8px;">`;
-            if (meal.breakfast.note) html += `<span style="font-size: 0.85rem; color: #6366f1;">🌅 ${meal.breakfast.note}</span>`;
+            html += `<div style="text-align: center; min-width: 80px;">`;
+            if (meal.breakfast.image) html += `<img src="${meal.breakfast.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;"><br>`;
+            html += `<span style="font-size: 0.75rem; color: #6366f1;">🌅 早餐</span>`;
             html += `</div>`;
           }
           if (meal.lunch?.image || meal.lunch?.note) {
-            html += `<div style="margin-bottom: 8px;">`;
-            if (meal.lunch.image) html += `<img src="${meal.lunch.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 8px;">`;
-            if (meal.lunch.note) html += `<span style="font-size: 0.85rem; color: #6366f1;">☀️ ${meal.lunch.note}</span>`;
+            html += `<div style="text-align: center; min-width: 80px;">`;
+            if (meal.lunch.image) html += `<img src="${meal.lunch.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;"><br>`;
+            html += `<span style="font-size: 0.75rem; color: #6366f1;">☀️ 午餐</span>`;
             html += `</div>`;
           }
           if (meal.dinner?.image || meal.dinner?.note) {
-            html += `<div style="margin-bottom: 8px;">`;
-            if (meal.dinner.image) html += `<img src="${meal.dinner.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 8px;">`;
-            if (meal.dinner.note) html += `<span style="font-size: 0.85rem; color: #6366f1;">🌙 ${meal.dinner.note}</span>`;
+            html += `<div style="text-align: center; min-width: 80px;">`;
+            if (meal.dinner.image) html += `<img src="${meal.dinner.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;"><br>`;
+            html += `<span style="font-size: 0.75rem; color: #6366f1;">🌙 晚餐</span>`;
             html += `</div>`;
           }
           html += `</div>`;
@@ -868,23 +868,23 @@
       }
 
       if (meal) {
-        html += `<div style="margin-top: 12px;">`;
+        html += `<div style="margin-top: 12px; display: flex; gap: 12px; flex-wrap: wrap;">`;
         if (meal.breakfast?.image || meal.breakfast?.note) {
-          html += `<div style="margin-bottom: 8px;">`;
-          if (meal.breakfast.image) html += `<img src="${meal.breakfast.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 8px;">`;
-          if (meal.breakfast.note) html += `<span style="font-size: 0.85rem; color: #6366f1;">🌅 ${meal.breakfast.note}</span>`;
+          html += `<div style="text-align: center; min-width: 80px;">`;
+          if (meal.breakfast.image) html += `<img src="${meal.breakfast.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;"><br>`;
+          html += `<span style="font-size: 0.75rem; color: #6366f1;">🌅 早餐</span>`;
           html += `</div>`;
         }
         if (meal.lunch?.image || meal.lunch?.note) {
-          html += `<div style="margin-bottom: 8px;">`;
-          if (meal.lunch.image) html += `<img src="${meal.lunch.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 8px;">`;
-          if (meal.lunch.note) html += `<span style="font-size: 0.85rem; color: #6366f1;">☀️ ${meal.lunch.note}</span>`;
+          html += `<div style="text-align: center; min-width: 80px;">`;
+          if (meal.lunch.image) html += `<img src="${meal.lunch.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;"><br>`;
+          html += `<span style="font-size: 0.75rem; color: #6366f1;">☀️ 午餐</span>`;
           html += `</div>`;
         }
         if (meal.dinner?.image || meal.dinner?.note) {
-          html += `<div style="margin-bottom: 8px;">`;
-          if (meal.dinner.image) html += `<img src="${meal.dinner.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 8px;">`;
-          if (meal.dinner.note) html += `<span style="font-size: 0.85rem; color: #6366f1;">🌙 ${meal.dinner.note}</span>`;
+          html += `<div style="text-align: center; min-width: 80px;">`;
+          if (meal.dinner.image) html += `<img src="${meal.dinner.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;"><br>`;
+          html += `<span style="font-size: 0.75rem; color: #6366f1;">🌙 晚餐</span>`;
           html += `</div>`;
         }
         html += `</div>`;
