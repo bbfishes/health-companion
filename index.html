@@ -337,37 +337,17 @@
 </head>
 <body>
   <div class="container">
-    <h1>個人健康紀錄器 🦞</h1>
-    <p class="subtitle">記錄健康 · 掌握趨勢 · 共享關懷</p>
+    <h1>陳科亦個人健康記錄器 🦞</h1>
     
     <div class="nav-tabs">
-      <button class="nav-tab active" onclick="showTab('profile')">👤 個人資料</button>
-      <button class="nav-tab" onclick="showTab('daily')">📝 每日記錄</button>
+      <button class="nav-tab active" onclick="showTab('daily')">📝 每日記錄</button>
       <button class="nav-tab" onclick="showTab('meals')">🍽️ 餐飲記錄</button>
       <button class="nav-tab" onclick="showTab('trends')">📈 趨勢分析</button>
       <button class="nav-tab" onclick="showTab('history')">📚 歷史資料</button>
     </div>
 
-    <!-- 個人資料區 -->
-    <div id="profile" class="tab-content active">
-      <div class="card">
-        <h2>個人資料</h2>
-        <div class="sync-status" id="syncStatus">正在同步資料...</div>
-        <div id="profileDisplay"></div>
-        <div class="form-group">
-          <label>姓名</label>
-          <input type="text" id="profileName" placeholder="請輸入您的姓名">
-        </div>
-        <div class="form-group">
-          <label>年齡</label>
-          <input type="number" id="profileAge" placeholder="請輸入年齡">
-        </div>
-        <button class="btn btn-primary" onclick="saveProfile()">儲存資料</button>
-      </div>
-    </div>
-
     <!-- 每日記錄區 -->
-    <div id="daily" class="tab-content">
+    <div id="daily" class="tab-content active">
       <div class="card">
         <h2>每日健康記錄</h2>
         <div class="form-group">
