@@ -780,14 +780,19 @@
       }
 
       let html = '';
-      const allDates = [...new Set([...records.map(r => r.date), ...mealRecords.map(r => r.date)])].sort().reverse();
+      // 舊到新排序（最舊在上面，最新在下面）
+      const allDates = [...new Set([...records.map(r => r.date), ...mealRecords.map(r => r.date)])].sort();
 
       allDates.forEach(date => {
         const daily = records.find(r => r.date === date);
         const meal = mealRecords.find(r => r.date === date);
         
         html += `<div class="history-item">
-          <div class="history-date">📅 ${date}</div>`;
+          <div class="history-date" onclick="toggleHistoryItem(this)" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+            <span>📅 ${date}</span>
+            <span class="expand-icon">▼</span>
+          </div>
+          <div class="history-content" style="display: none;">`;
         
         if (daily) {
           html += `<div class="history-details">`;
@@ -825,11 +830,23 @@
           html += `</div>`;
         }
 
-        html += `</div>`;
+        html += `</div></div>`;
       });
 
       historyList.innerHTML = html;
     }
+
+    window.toggleHistoryItem = function(el) {
+      const content = el.nextElementSibling;
+      const icon = el.querySelector('.expand-icon');
+      if (content.style.display === 'none') {
+        content.style.display = 'block';
+        icon.textContent = '▲';
+      } else {
+        content.style.display = 'none';
+        icon.textContent = '▼';
+      }
+    };
 
     window.searchHistory = function() {
       const searchDate = document.getElementById('searchDate').value;
