@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>健康小幫手 🦞</title>
+  <title>個人健康紀錄器 🦞</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
@@ -337,7 +337,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>健康小幫手 🦞</h1>
+    <h1>個人健康紀錄器 🦞</h1>
     <p class="subtitle">記錄健康 · 掌握趨勢 · 共享關懷</p>
     
     <div class="nav-tabs">
@@ -823,10 +823,25 @@
         }
 
         if (meal) {
-          html += `<div style="margin-top: 12px; font-size: 0.9rem; color: #6366f1;">`;
-          if (meal.breakfast?.note) html += `🌅 早餐: ${meal.breakfast.note} `;
-          if (meal.lunch?.note) html += `☀️ 午餐: ${meal.lunch.note} `;
-          if (meal.dinner?.note) html += `🌙 晚餐: ${meal.dinner.note}`;
+          html += `<div style="margin-top: 12px;">`;
+          if (meal.breakfast?.image || meal.breakfast?.note) {
+            html += `<div style="margin-bottom: 8px;">`;
+            if (meal.breakfast.image) html += `<img src="${meal.breakfast.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 8px;">`;
+            if (meal.breakfast.note) html += `<span style="font-size: 0.85rem; color: #6366f1;">🌅 ${meal.breakfast.note}</span>`;
+            html += `</div>`;
+          }
+          if (meal.lunch?.image || meal.lunch?.note) {
+            html += `<div style="margin-bottom: 8px;">`;
+            if (meal.lunch.image) html += `<img src="${meal.lunch.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 8px;">`;
+            if (meal.lunch.note) html += `<span style="font-size: 0.85rem; color: #6366f1;">☀️ ${meal.lunch.note}</span>`;
+            html += `</div>`;
+          }
+          if (meal.dinner?.image || meal.dinner?.note) {
+            html += `<div style="margin-bottom: 8px;">`;
+            if (meal.dinner.image) html += `<img src="${meal.dinner.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 8px;">`;
+            if (meal.dinner.note) html += `<span style="font-size: 0.85rem; color: #6366f1;">🌙 ${meal.dinner.note}</span>`;
+            html += `</div>`;
+          }
           html += `</div>`;
         }
 
@@ -873,10 +888,25 @@
       }
 
       if (meal) {
-        html += `<div style="margin-top: 12px; font-size: 0.9rem; color: #6366f1;">`;
-        if (meal.breakfast?.note) html += `🌅 早餐: ${meal.breakfast.note} `;
-        if (meal.lunch?.note) html += `☀️ 午餐: ${meal.lunch.note} `;
-        if (meal.dinner?.note) html += `🌙 晚餐: ${meal.dinner.note}`;
+        html += `<div style="margin-top: 12px;">`;
+        if (meal.breakfast?.image || meal.breakfast?.note) {
+          html += `<div style="margin-bottom: 8px;">`;
+          if (meal.breakfast.image) html += `<img src="${meal.breakfast.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 8px;">`;
+          if (meal.breakfast.note) html += `<span style="font-size: 0.85rem; color: #6366f1;">🌅 ${meal.breakfast.note}</span>`;
+          html += `</div>`;
+        }
+        if (meal.lunch?.image || meal.lunch?.note) {
+          html += `<div style="margin-bottom: 8px;">`;
+          if (meal.lunch.image) html += `<img src="${meal.lunch.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 8px;">`;
+          if (meal.lunch.note) html += `<span style="font-size: 0.85rem; color: #6366f1;">☀️ ${meal.lunch.note}</span>`;
+          html += `</div>`;
+        }
+        if (meal.dinner?.image || meal.dinner?.note) {
+          html += `<div style="margin-bottom: 8px;">`;
+          if (meal.dinner.image) html += `<img src="${meal.dinner.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 8px;">`;
+          if (meal.dinner.note) html += `<span style="font-size: 0.85rem; color: #6366f1;">🌙 ${meal.dinner.note}</span>`;
+          html += `</div>`;
+        }
         html += `</div>`;
       }
 
